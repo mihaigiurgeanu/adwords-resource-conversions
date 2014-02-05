@@ -15,11 +15,15 @@
   "Creates a Ring handler that serves a static resource and notifies Google."
   [google-notification-url]
   (fn [request]
-    (let [google-response (http/get google-notification-url {:as :text})
+    (let [incoming-headers (:headers request)
+          google-options {:as :text, :headers (dissoc incoming-headers "host")}
+          google-response (http/get google-notification-url google-options)
           response ((-> not-found-handler 
                       (res/wrap-resource "public")
                       (ct/wrap-content-type)
                       (nm/wrap-not-modified)) request)]
+      (log/debug "Original request headers: " (pr-str incoming-headers))
+      (log/debug "google-request-options: " (pr-str google-options))
       (log/debug "Google request returned status " (:status @google-response))
       (log/debug "Google request returned body <<" (:body @google-response) ">>")
       response)))

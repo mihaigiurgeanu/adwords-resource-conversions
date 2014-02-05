@@ -1,4 +1,4 @@
-(defproject adwords-resource-conversions "0.1.0-SNAPSHOT"
+(defproject adwords-resource-conversions "0.1.1-SNAPSHOT"
   :description "Google adwords conversions for static resources."
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
